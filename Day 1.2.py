@@ -1,24 +1,21 @@
 def replaceNumbers(s):
-    print(s)
-    numbers={"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9"}
-    pLeft={}
-    pRight={}
-    for n in numbers:
-        i=s.find(n)
-        if i>-1:
-            pLeft[n] = i
-            
-        i=s.rfind(n)
-        if i>-1:
-            pRight[n] = i
-
-    if (pLeft):
-        pLeftKey=sorted(pLeft, key=pLeft.get)[0]
-        s=s.replace(pLeftKey, numbers[pLeftKey])
-    if (pRight):
-        pRightKey=sorted(pRight, key=pRight.get)[-1]
-        s=s.replace(pRightKey, numbers[pRightKey])
+    numbers={"one": "o1e", "two": "t2o", "three": "t3e", "four": "4", "five": "5e", "six": "6", "seven": "7n", "eight": "e8t", "nine": "n9e"}
     
+    i = 0
+    while i < len(s)-1:
+        part1=s[:i]
+        part2=s[i:]
+
+        pos=-1
+        for n in numbers:
+            pos=part2.find(n)
+            if pos==0:
+                part2=part2.replace(n, numbers[n], 1)
+                break
+                
+        i+=1
+        s=part1+part2
+
     return s
     
 # -------------
@@ -26,6 +23,5 @@ sum=0
 for line in open("data.txt"):
     l=replaceNumbers(line.strip())
     l=[x for x in list(l) if x.isnumeric()]
-
     sum+=int(l[0]+l[-1])
 print(sum)
